@@ -1,0 +1,14 @@
+{
+  "name": "ndse-35",
+  "version": "1.0.0",
+  "main": "date.js",
+  "bin": {
+    "simple-date": "./date.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
