@@ -1,0 +1,14 @@
+{
+  "name": "ndse-35-dz1",
+  "version": "1.0.0",
+  "main": "current.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "abtank",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
+}
