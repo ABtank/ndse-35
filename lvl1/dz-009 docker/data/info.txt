@@ -1,0 +1,23 @@
+В винде надо указывать ${PWD}/data
+Почему-то ./data не указывается корректный каталог для подключения
+
+Используемые команды в ДЗ
+ -=DZ1=- 
+docker version
+docker ps
+docker ps -a
+docker pull busybox
+docker images
+docker rm pinger
+docker run -it --name pinger busybox ping -c 7 netology.ru
+docker pull node:15.14
+ -=DZ2=-
+docker run -it --rm --name mynode -e NAME=Юрий -e SURNAME=Абрамов node:15.14
+console.log(`Привет, ${process.env.NAME} ${process.env.SURNAME}!`);
+ -=DZ3=-
+docker run -it --rm -v ${PWD}/data:/var/first/data --name first_node node:15.14 sleep infinity 
+docker exec -it first_node /bin/bash
+docker exec -it second_node /bin/bash
+docker stop first_node second_node
+docker rm first_node second_node
+docker rmi node:15.14
