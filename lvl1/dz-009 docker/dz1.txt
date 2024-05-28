@@ -1,0 +1,73 @@
+PS E:\IT\Node\ndse-35> docker version
+Client:
+ Cloud integration: v1.0.35+desktop.13      
+ Version:           26.1.1
+ API version:       1.45
+ Go version:        go1.21.9
+ Git commit:        4cf5afa
+ Built:             Tue Apr 30 11:48:43 2024
+ OS/Arch:           windows/amd64
+ Context:           default
+
+Server: Docker Desktop 4.30.0 (149282)      
+ Engine:
+  Version:          26.1.1
+  API version:      1.45 (minimum version 1.24)
+  Go version:       go1.21.9
+  Git commit:       ac2de55
+  Built:            Tue Apr 30 11:48:28 2024
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.6.31
+  GitCommit:        e377cd56a71523140ca6ae87e30244719194a521
+ runc:
+  Version:          1.1.12
+  GitCommit:        v1.1.12-0-g51d5e94
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+PS E:\IT\Node\ndse-35> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS E:\IT\Node\ndse-35> docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+PS E:\IT\Node\ndse-35> docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+ec562eabd705: Pull complete
+Digest: sha256:5eef5ed34e1e1ff0a4ae850395cbf665c4de6b4b83a32a0bc7bcb998e24e7bbb
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+What's Next?
+  1. Sign in to your Docker account → docker login
+  2. View a summary of image vulnerabilities and recommendations → docker scout quickview busybox
+
+PS E:\IT\Node\ndse-35> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS E:\IT\Node\ndse-35> docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
+599894bd0c8a   alpine    "ping netology.ru -n…"   2 minutes ago   Exited (1) 2 minutes ago             pinger
+PS E:\IT\Node\ndse-35> docker images
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+alpine       latest    1d34ffeaf190   2 days ago      7.79MB
+ubuntu       latest    bf3dc08bfed0   3 weeks ago     76.2MB
+busybox      latest    65ad0d468eb1   12 months ago   4.26MB
+
+PS E:\IT\Node\ndse-35> docker rm pinger
+pinger
+PS E:\IT\Node\ndse-35> docker run -it --name pinger busybox ping -c 7 netology.ru
+PING netology.ru (104.22.41.171): 56 data bytes
+64 bytes from 104.22.41.171: seq=0 ttl=63 time=14.724 ms
+64 bytes from 104.22.41.171: seq=1 ttl=63 time=16.281 ms
+64 bytes from 104.22.41.171: seq=2 ttl=63 time=19.094 ms
+64 bytes from 104.22.41.171: seq=3 ttl=63 time=19.283 ms
+64 bytes from 104.22.41.171: seq=4 ttl=63 time=20.239 ms
+64 bytes from 104.22.41.171: seq=5 ttl=63 time=18.323 ms
+64 bytes from 104.22.41.171: seq=6 ttl=63 time=17.750 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 14.724/17.956/20.239 ms
+
+PS E:\IT\Node\ndse-35>

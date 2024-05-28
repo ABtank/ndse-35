@@ -1,0 +1,59 @@
+PS E:\IT\Node\ndse-35\lvl1\dz-009 docker> docker run -it --rm -v ${PWD}/data:/var/first/data --name first_node node:15.14 sleep infinity 
+
+
+PS E:\IT\Node\ndse-35\lvl1> docker exec -it first_node /bin/bash 
+root@b8299b5bc6cc:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@b8299b5bc6cc:/# cd var/first/data/
+root@b8299b5bc6cc:/var/first/data# ls
+test.txt
+
+
+PS E:\IT\Node\ndse-35\lvl1> docker exec -it second_node /bin/bash
+root@c9d746d3a5cb:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@c9d746d3a5cb:/# cd var/second/data/
+root@c9d746d3a5cb:/var/second/data# ls
+info.txt
+root@c9d746d3a5cb:/var/second/data# cat info.txt 
+В винде надо указывать ${PWD}/data
+Почему-то ./data не указывается корректный каталог для подключения
+root@c9d746d3a5cb:/var/second/data#
+
+
+
+
+PS E:\IT\Node\ndse-35> docker ps -a
+CONTAINER ID   IMAGE        COMMAND                  CREATED             STATUS                         PORTS     NAMES
+c9d746d3a5cb   node:15.14   "docker-entrypoint.s…"   7 minutes ago       Up 7 minutes                             second_node
+b8299b5bc6cc   node:15.14   "docker-entrypoint.s…"   15 minutes ago      Up 15 minutes                            first_node
+a049452aed4f   busybox      "ping -c 7 netology.…"   About an hour ago   Exited (0) About an hour ago             pinger
+PS E:\IT\Node\ndse-35> docker stop first_node second_node
+first_node
+second_node
+PS E:\IT\Node\ndse-35> docker rm first_node second_node
+Error response from daemon: No such container: first_node
+Error response from daemon: No such container: second_node
+PS E:\IT\Node\ndse-35> docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS                         PORTS     NAMES
+a049452aed4f   busybox   "ping -c 7 netology.…"   About an hour ago   Exited (0) About an hour ago             pinger
+PS E:\IT\Node\ndse-35> docker ps   
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+
+PS E:\IT\Node\ndse-35> docker rmi node:15.14
+Untagged: node:15.14
+Untagged: node@sha256:608bba799613b1ebf754034ae008849ba51e88b23271412427b76d60ae0d0627
+Deleted: sha256:3d3f41722daf1a77c34d6eade6676bbffa2d6a2a21095de2ab0c427a5c942fc9
+Deleted: sha256:601382991a159cfc5013ad973158f30b7b7a913e8d7e547b3456deab3ad98022
+Deleted: sha256:d5db49eecae8c02c9ea3a79f89c43ded9162bac118a0302a7b514d0df82aa112
+Deleted: sha256:a2c1973858d0aad3de0927294602b17c8ef9050c30e0f461e0868997a08552a4
+Deleted: sha256:a0153172017a08a521a8be971ca4dcb5fbc4b7227642c12bbb2da6265bd66b50
+Deleted: sha256:f1123940e954d335d91b52a40fab4f8144f38ff113ade7d65663071d0f06da6f
+Deleted: sha256:f1f4fbb0e7e6e0ce2d9eae1e577f9f6df0a719dd874bff00b2d08895c75c297d
+Deleted: sha256:1eb455ab6d45fdbbd90fccff791ffa228080c052acf464f8da1b1d78650bd706
+Deleted: sha256:1dbe832a694971a925d7d216f49b700c95f402bd72288f9d37eceb1d59dcf72d
+Deleted: sha256:2f4ee6a2e1b5dfb9236cd262e788f9d39109242ca27a4aacb583c8af66ec3ff7
+PS E:\IT\Node\ndse-35> 
