@@ -1,123 +1,36 @@
 const express = require('express')
-const { v4: uuid } = require('uuid')
 
-class Book {
-    constructor(
-        title = "",
-        description = "",
-        authors = "",
-        favorite = "",
-        fileCover = "",
-        fileName = "",
-        id = uuid()
-    ) {
-        this.id = id
-        this.title = title
-        this.description = description
-        this.authors = authors
-        this.favorite = favorite
-        this.fileCover = fileCover
-        this.fileName = fileName
-    }
-}
+const logger = require('./middleware/logger')
+const error404 = require('./middleware/err-404')
+const indexRouter = require('./routes/index')
+const apiUserRouter = require('./routes/api/user')
+const apiBookRouter = require('./routes/api/book')
 
-const stor = {
-    books: [
-        new Book(),
-        new Book()
-    ]
-};
 
 
 const app = express();
+
+// для получения req.body иначе undefined
 app.use(express.json())
 
-app.post(`/api/user/login`, (req, res) => {
-    const authUser = { id: 1, mail: "test@mail.ru" };
-    res.json(authUser)
-    res.status(201)
-})
+// логирование подключили
+app.use(logger)
 
-app.get(`/api/books`, (req, res) => {
-    const { books } = stor
-    res.json(books)
-})
+// отдаем статику (__dirname - корень проекта)
+app.use('/public', express.static(__dirname + '/public'))
 
-app.get(`/api/books/:id`, (req, res) => {
-    const { books } = stor
-    const { id } = req.params
-    const idx = books.findIndex(el => el.id === id)
+// начальная страница
+app.use('/', indexRouter)
 
-    if (idx !== -1) {
-        res.json(books[idx])
-    } else {
-        res.status(404)
-        res.json('404 | страница не найдена')
-    }
-})
+// api по пользователям url = /users + url из роута
+app.use('/api/users', apiUserRouter)
 
+// api по книгам url = /book + url из роута
+app.use('/api/books', apiBookRouter)
 
+// обработка ошибки 404 после определения всех роутов
+app.use(error404)
 
-app.post(`/api/books`, (req, res) => {
-    const { books } = stor
-    const {
-        title,
-        description,
-        authors,
-        favorite,
-        fileCover,
-        fileName } = req.body
-
-    const newBook = new Book(title, description, authors, favorite, fileCover, fileName)
-    books.push(newBook)
-
-    res.status(201)
-    res.json(newBook)
-})
-
-app.put(`/api/books/:id`, (req, res) => {
-    const { books: books } = stor
-    const {
-        title,
-        description,
-        authors,
-        favorite,
-        fileCover,
-        fileName } = req.body
-    const { id } = req.params
-    const idx = books.findIndex(el => el.id === id)
-
-    if (idx !== -1) {
-        books[idx] = {
-            ...books[idx],
-            title,
-            description,
-            authors,
-            favorite,
-            fileCover,
-            fileName
-        }
-        res.json(books[idx])
-    } else {
-        res.status(404)
-        res.json('404 | страница не найдена')
-    }
-})
-
-app.delete(`/api/books/:id`, (req, res) => {
-    const { books: books } = stor
-    const { id } = req.params
-    const idx = books.findIndex(el => el.id === id)
-
-    if (idx !== -1) {
-        books.splice(idx, 1)
-        // res.status(204)
-        res.json('ok')
-    } else {
-        res.status(404)
-        res.json('404 | страница не найдена')
-    }
-})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
