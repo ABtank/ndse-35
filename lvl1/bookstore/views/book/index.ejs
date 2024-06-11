@@ -1,0 +1,73 @@
+<%- include('../port/layout-start', {title: title}) %>
+
+
+    <h1>
+        <%= title %>
+    </h1>
+    <a class="btn btn-sm btn-primary" href="books/create">Добавить запись</a>
+
+    <% if(locals.books !==undefined && books.length) { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th>Обложка</th>
+                    <th>Описание книги</th>
+                    <th>Файл книги</th>
+                    <th width="10%">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% books.map((el, idx)=> { %>
+                    <tr>
+                        <th scope="row">
+                            <%= idx +1 %>
+                        </th>
+                        <td><img src="book1.jpg" alt="<%= el.title %>"></td>
+                        <td>
+                            <%= el.description %>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <% if(el.fileName) {%>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a class="btn btn-link" title="скачать" href="/api/books/<%= el.id %>/download">
+                                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                            <%= el.fileName %>
+                                        </a>
+                                        <form action="/books/delete/<%= el.id %>/file_book" method="POST"
+                                            class="d-inline">
+                                            <button class="btn btn-danger" title="Удалить">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-info" title="Подробности" href="/books/<%= el.id %>">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn btn-secondary" title="Редактировать" href="/books/update/<%= el.id %>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                                <form action="/books/delete/<%= el.id %>" method="POST" class="d-inline">
+                                    <button class="btn btn-danger" title="Удалить">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+
+        <% } else { %>
+            <h3 class="mt-5">Записей пока нет</h3>
+            <% } %>
+
+
+                <%- include('../port/layout-end') %>

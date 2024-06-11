@@ -1,0 +1,62 @@
+<%- include('./port/layout-start') %>
+<h1>
+    <%= title %>
+</h1>
+<h2>
+    <%= sub_title_1 %>
+</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th>Метод</th>
+                <th>URL</th>
+                <th>действие</th>
+                <th>Комментарий</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% urls_api.map((el, index)=> { %>
+            <tr>
+                <th><%=++index %></th>
+                <th><%=el.method %></th>
+                <td>
+                <a class="btn btn-sm btn-primary" href="<%=el.url %>"><%=el.url %></a>
+                </td>
+                <th><%=el.do %></th>
+                <th><%=el.descr %></th>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <h2>
+        <%= sub_title_2 %>
+    </h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th>Метод</th>
+                <th>URL</th>
+                <th>действие</th>
+                <th>Комментарий</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% urls_ui.map((el, index)=> { %>
+            <tr>
+                <th><%=++index %></th>
+                <th><%=el.method %></th>
+                <td>
+                <a class="btn btn-sm btn-primary" href="<%=el.url %>"><%=el.url %></a>
+                </td>
+                <th><%=el.do %></th>
+                <th><%=el.descr %></th>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+
+
+    <%- include('./port/layout-end') %>
