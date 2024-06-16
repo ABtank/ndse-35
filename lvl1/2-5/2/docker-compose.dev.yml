@@ -1,0 +1,22 @@
+services:
+
+  storage: # сервис с именем storage
+    image: redis # используется образ redis:latest
+    volumes:
+      - ./data:/data # подключает диск
+
+  counter: # сервис с именем counter
+    image: node:20.10
+    working_dir: /app 
+    volumes:
+      - ./:/app # подключает диск с кодом
+    ports:
+      - 80:3002 # мапит порт 80 хоста на порт контейнера
+    environment:
+      - PORT=3002 # передает переменные среды
+      - STORAGE_URL=redis://storage
+
+    command: sh -c "npm install --production=false && npm run dev"
+
+    depends_on:
+      -  storage # устанавливает зависимость от сервиса storage

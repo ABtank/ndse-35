@@ -1,0 +1,17 @@
+services:
+
+  storage: # сервис с именем storage
+    image: redis # используется образ redis:latest
+    volumes:
+      - ./data:/data # подключает диск
+
+  counter: # сервис с именем counter
+    image: abtank/counter:v2.0.0
+    ports:
+      - 80:3002 # мапит порт 80 хоста на порт контейнера
+    environment:
+      - PORT=3002 # передает переменные среды
+      - STORAGE_URL=redis://storage
+
+    depends_on:
+      -  storage # устанавливает зависимость от сервиса storage
