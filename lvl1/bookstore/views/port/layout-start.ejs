@@ -20,7 +20,27 @@
 
 </head>
 
-<body class="d-flex flex-column h-100">
+<style>
+    /* Светлая тема */
+:root {
+    --bg-color: #fff;
+    --text-color: #333;
+}
+
+/* Темная тема */
+.dark-theme {
+    --bg-color: #333;
+    --text-color: #fff;
+}
+
+body, footer, .table {
+    background-color: var(--bg-color);
+    color: var(--text-color) !important;
+}
+
+</style>
+
+<body class="d-flex flex-column h-100 dark-theme">
 
     <header>
         <%- include('nav') %>
