@@ -20,11 +20,31 @@ app.get('/:name', async (req, res) => {
 
     try {
         const cnt = await client.incr(name)
-        res.status(200).json({ message: `Hello ${name}!`, cnt })
+        res.status(200).json({ message: `Hello ${name}!`, cnt , REDIS_URL})
     } catch (e) {
-        res.status(500).json({ercode:500, errmsg: `redis error ${e}!` })
+        res.status(500).json({ ercode: 500, errmsg: `redis error ${e}!` })
     }
 
+})
+
+app.post('/counter/:bookId/incr', async (req, res) => {
+    const { bookId } = req.params;
+    try {
+        const cnt = await client.incr(bookId)
+        res.status(200).json({ message: `POST cnt id=${bookId}!`, cnt })
+    } catch (e) {
+        res.status(500).json({ ercode: 500, errmsg: `redis error ${e}!` })
+    }
+})
+
+app.get('/counter/:bookId', async (req, res) => {
+    const { bookId } = req.params;
+    try {
+        const cnt = await client.get(bookId)
+        res.status(200).json({ message: `GET cnt id=${bookId}!`, cnt })
+    } catch (e) {
+        res.status(500).json({ ercode: 500, errmsg: `redis error ${e}!` })
+    }
 })
 
 const PORT = process.env.PORT || 3000;
