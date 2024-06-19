@@ -11,8 +11,7 @@ const storage = multer.diskStorage({
     filename(request, file, callback) {
         // 1- error = null
         // 1- имя файла
-        const id = request.params.id || request.body.id || uuid()
-        request.body.id=id
+        const id = uuid()
         request.body.fileName=file.originalname
         request.body.fileBook=`${id}-${file.originalname}`
         callback(null, `${id}-${file.originalname}`)

@@ -17,7 +17,7 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-    command: mongod --quiet --logpath /dev/null
+    command: mongod --quiet
     restart: always
     ports:
       - '27017:27017'
@@ -41,7 +41,7 @@ services:
   bookstore:
     image: node:20.10-alpine
     working_dir: /app 
-    build: .
+    command: sh -c "npm install --production=false && npm run dev"
     volumes:
       - ./:/app
     ports:

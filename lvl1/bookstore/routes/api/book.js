@@ -1,24 +1,7 @@
 const express = require('express')
-const { v4: uuid } = require('uuid')
-
-
 const fileBookMulter = require('../../middleware/file_book')
 const db_books = fileBookMulter.preservePath;
-const { stor } = require('../../db/stor_book')
-const { Book } = require('../../models/book')
 const BookController = require("../../controllers/bookController")
-
-function getFilesInDirectory(directory) {
-    try {
-        const files = fs.readdirSync(directory);
-        return files;
-    } catch (err) {
-        console.error(err);
-        return [];
-    }
-}
-
-
 const router = express.Router()
 
 
@@ -43,22 +26,7 @@ router.post(`/`,
 // получение файла
 router.get('/:id/download',
     BookController.checkBookId,
-    (req, res) => {
-        const { books } = stor
-        const { id } = req.params
-        const book = books[books.findIndex(el => el.id === id)]
-
-        // const filesList = getFilesInDirectory(db_books);
-        // const idx = filesList.findIndex(el => el.startsWith(id))
-        // if (idx !== -1) {
-        res.download(`${db_books}/${book.fileBook}`, `${book.fileName}`, err => {
-            if (err) {
-                res.status(404).json('404 | файл не найден');
-            }
-        })
-        // }
-
-    })
+    BookController.bookfile_download)
 
 
 router.get(`/`,

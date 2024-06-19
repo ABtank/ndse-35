@@ -72,13 +72,9 @@ router.post('/update/:id',
     BookController.put_book,
     BookController.get_book,
     (req, res) => {
-        let book = req.book;
-        if (!book) res.redirect('/error/404');
-        res.render('book/view', {
-            title: "Книга | VIEW",
-            current_nav: 'book',
-            book: book
-        })
+        if (!req.book) res.redirect('/error/404');
+        const { id } = req.params
+        res.redirect(`/books/${id}`)
     })
 
 router.post('/delete/:id',
