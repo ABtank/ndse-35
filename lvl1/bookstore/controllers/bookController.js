@@ -107,7 +107,7 @@ class BookController {
             title,
             description,
             authors,
-            favorite
+            favorite: Boolean(favorite || false)
         });
 
         next();
