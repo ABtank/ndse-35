@@ -1,4 +1,24 @@
-### ДЗ 010-db MongoDB
+# ДЗ 009-docker-2
+## 1.  
+* Создаем Dockerfile и выполняем сборку образа
+```
+docker build -t bookstore .
+```
+* пример запуска
+```
+docker run -it --rm --name bookstore -e PORT=3000 -p 3000:3000 bookstore
+```
+* Публикуем образ
+```
+docker tag bookstore abtank/bookstore:v1.0.0
+```
+```
+docker push abtank/bookstore:v1.0.0
+```
+
+
+
+# ДЗ 010-db MongoDB
 
 1. Запрос(ы) для вставки данных минимум о двух книгах в коллекцию books:
 ```

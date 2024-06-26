@@ -1,8 +1,10 @@
 const { stor } = require('../db/stor_book')
 const { Book } = require('../models/book')
+const axios = require('axios');
 const fs = require('fs');
 const fileBookMulter = require('../middleware/file_book')
 const db_books = fileBookMulter.preservePath;
+const COUNTER_URL = process.env.COUNTER_URL || 'http://counter:3002';
 
 function getFilesInDirectory(directory) {
     try {
@@ -18,6 +20,19 @@ class BookController {
     static get_book_list(req, res, next) {
         const { books } = stor
         req.book_list = books
+        next()
+    }
+    static async incr_book(req, res, next) {
+        const { id } = req.params || req.body;
+        if (id){
+            try {
+                const response = await axios.post(`${COUNTER_URL}/counter/${id}/incr`);
+                req.book_cnt= response.data.cnt;
+                console.log('Counter incremented:', response.data);
+              } catch (error) {
+                console.error('Error incrementing counter:', error);
+              }
+        }
         next()
     }
     // Проверка request.params.id

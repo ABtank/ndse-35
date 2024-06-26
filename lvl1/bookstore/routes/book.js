@@ -32,6 +32,7 @@ router.post('/create',
 router.get('/:id',
     BookController.checkBookIdUI,
     BookController.get_book,
+    BookController.incr_book,
     (req, res) => {
         const { id } = req.params;
         const url = `api/books/${id}`;
@@ -41,7 +42,8 @@ router.get('/:id',
         res.render('book/view', {
             title: "Книга | VIEW",
             current_nav: 'book',
-            book: book
+            book: book,
+            book_cnt: req.book_cnt || 0
         })
 
     })
