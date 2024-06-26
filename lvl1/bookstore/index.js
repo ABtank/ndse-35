@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express')
+const mongoose = require('mongoose')
 
 const logger = require('./middleware/logger')
 const error404 = require('./middleware/err-404')
@@ -44,9 +46,17 @@ app.use('/error', errorRouter)
 // обработка ошибки 404 после определения всех роутов
 app.use(error404)
 
-
-
+async function start(PORT, UrlDB) {
+    try {
+        console.log("APP TRY START!", PORT, UrlDB)
+        await mongoose.connect(UrlDB);
+        app.listen(PORT);
+        console.log("APP START!", PORT, UrlDB)
+    } catch (e) {
+        console.log(e)
+    }
+}
+ 
+const UrlDB = process.env.UrlDB;
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
-});
+start(PORT, UrlDB);

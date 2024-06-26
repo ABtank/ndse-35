@@ -1,10 +1,10 @@
 FROM node:20.10-alpine
 WORKDIR /app
 
-# ARG NODE_ENV=production
+ARG NODE_ENV=production
 
-COPY ./*.json ./
+COPY ./*.json ./app
 RUN npm install 
-COPY ./ ./
-CMD ["npm","run","dev"]
-# CMD ["npm","run","prod"]
+COPY ./ ./app
+# CMD ["npm","run","dev"]
+CMD ["npm","run","prod"]
