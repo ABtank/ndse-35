@@ -29,10 +29,20 @@
                 <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
-                            aria-expanded="true"><i class="fa fa-user-circle" aria-hidden="true"></i> User Menu</a>
+                            aria-expanded="true"><i class="fa fa-user-circle" aria-hidden="true"></i>
+                            <% if (locals.user?._id) {%>
+                                <%= locals.user?.email %>
+                            <% } else { %>
+                                User Menu
+                            <% } %></a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown03">
-                            <li><a class="dropdown-item" href="#">login/logout</a></li>
-                            <li><a class="dropdown-item" href="#">settings</a></li>
+                            <% if (locals.user?._id) {%>
+                                <li><a class="dropdown-item" href="/auth/logout">logout</a></li>
+                                <li><a class="dropdown-item" href="/user/me">Профиль</a></li>
+                            <% } else { %>
+                                <li><a class="dropdown-item" href="/auth/login">login</a></li>
+                                <li><a class="dropdown-item" href="/auth/signup">signup</a></li>
+                            <% } %></a>
                         </ul>
                     </li>
                 </ul>
