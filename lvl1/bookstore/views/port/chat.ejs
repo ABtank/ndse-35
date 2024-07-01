@@ -1,0 +1,73 @@
+<script src="/socket.io/socket.io.js"></script>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="form-group">
+      <label for="text">Отправить сообщение</label>
+      <textarea placeholder="message" class="form-control" id="text"></textarea>
+    </div>
+  </div>
+  <div class="col-12">
+    <button type="submit" id="send-room" class="btn btn-primary pull-right">Отправить</button>
+  </div>
+</div>
+<hr>
+
+
+<div class="row">
+  <div class="col-12">
+    <div id="list" class="list-group">
+      <% if(locals.chatMessages) {%>
+        <% locals.chatMessages.map((el, index)=> { %>
+              <div class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <small><%=el.userId.email %></small>
+                    <small class="text-muted">room <%=el.roomId %></small>
+                </div>
+                <p class="mb-1"><%=el.msg %></p>
+                <small class="mb-1 pull-right"><i><%=el.dtCreate.toISOString() %></i></small>
+            </div>
+          <% }) %>
+        <%}%>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const roomId = "<%= roomId %>";
+  const userId = "<%= locals.user?._id %>";
+  const socket = io.connect('/', {
+    query: `roomId=${roomId}&userId=${userId}`
+  });
+
+  const boxList = document.querySelector('#list');
+  const inputText = document.querySelector('#text');
+  const sendRoom = document.querySelector('#send-room');
+
+  const getTmp = (msg) => {
+    const now= new Date();
+    return `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small>${msg.username}</small>
+                        <small class="text-muted">${msg.type}</small>
+                    </div>
+                    <p class="mb-1">${msg.text}</p>
+                    <small class="mb-1 pull-right"><i>${now.toISOString()}</i></small>
+                </div>
+        `;
+  };
+
+  socket.on('message-to-room', (msg) => {
+    const div = getTmp(msg)
+    boxList.insertAdjacentHTML('afterBegin', div)
+  });
+
+  sendRoom.addEventListener('click', () => {
+    socket.emit('message-to-room', {
+      text: inputText.value,
+    })
+  })
+</script>
