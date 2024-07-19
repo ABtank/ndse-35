@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fileBookMulter = require('../middleware/file_book')
 const BookController = require("../controllers/bookController")
+const chatMessageController = require('../controllers/chatMessageController');
 
 
 router.get('/',
@@ -33,9 +34,9 @@ router.get('/:id',
     BookController.checkBookIdUI,
     BookController.get_book,
     BookController.incr_book,
+    chatMessageController.getList,
     (req, res) => {
         const { id } = req.params;
-        const url = `api/books/${id}`;
         let book = req.book;
 
         if (!book.id) res.redirect('/error/404');
@@ -43,6 +44,7 @@ router.get('/:id',
             title: "Книга | VIEW",
             current_nav: 'book',
             book: book,
+            chatMessages: req.chatMessages || [],
             book_cnt: req.book_cnt || 0
         })
 

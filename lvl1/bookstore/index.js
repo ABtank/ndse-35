@@ -1,14 +1,18 @@
 require('dotenv').config();
 const express = require('express')
 const mongoose = require('mongoose')
-
+//-= PASSPORT =-
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const User = require('./models/user')
-
 const AuthController = require('./controllers/authController');
 
+// websocket
+const http = require('http');
+const socketIO = require('socket.io');
+
+//-= ROUTERS =-
 const logger = require('./middleware/logger')
 const error404 = require('./middleware/err-404')
 const indexRouter = require('./routes/index')
@@ -34,6 +38,12 @@ passport.deserializeUser(User.deserializeUser);
 
 const app = express();
 
+
+// Определим входящее соединение websocket
+const server = http.Server(app)
+const io = socketIO(server)
+require('./socketHandler')(io);
+
 // для получения req.body иначе undefined
 app.use(express.json())
 
@@ -54,14 +64,14 @@ app.use('/public', express.static(__dirname + '/public'))
 app.use(AuthController.setAuthUser)
 // начальная страница
 app.use('/', indexRouter)
-app.use('/auth', authRouter)
 
+//-= PASSPORT =-
+app.use('/auth', authRouter)
 app.post('/auth/login',
     passport.authenticate('local', { failureRedirect: '/auth/login' }),
     (req, res) => {
         res.redirect('/')
     })
-
 app.use(AuthController.checkAuth)
 
 // UI по пользователям url = /user + url из роута
@@ -83,7 +93,7 @@ async function start(PORT, UrlDB) {
     try {
         console.log("APP TRY START!", PORT, UrlDB)
         await mongoose.connect(UrlDB);
-        app.listen(PORT);
+        server.listen(PORT);
         console.log("APP START!", PORT, UrlDB)
     } catch (e) {
         console.log(e)

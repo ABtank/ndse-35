@@ -67,7 +67,10 @@ class BookController {
     static get_book = async (req, res, next) => {
         const { id } = req.params
         const book = await Book.findById(id).select('-__v')
-        if (book) req.book = book
+        if (book) {
+            req.book = book;
+            req.roomId = book._id;
+        }
         else res.status(404);
         next();
     }
