@@ -1,3 +1,4 @@
+require('reflect-metadata');
 const Book = require('../models/book')
 const axios = require('axios');
 const fs = require('fs');
@@ -16,6 +17,11 @@ function getFilesInDirectory(directory) {
 }
 
 class BookController {
+
+    constructor(){
+        console.log('constructor BOOKS_CONTROLLER');
+    }
+
     static async get_book_list(req, res, next) {
         req.book_list = await Book.find().select('-__v');
         next()
@@ -171,4 +177,4 @@ class BookController {
     }
 }
 
-module.exports = BookController;
+module.exports = {BookController};

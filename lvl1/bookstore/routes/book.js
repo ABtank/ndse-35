@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const fileBookMulter = require('../middleware/file_book')
-const BookController = require("../controllers/bookController")
 const chatMessageController = require('../controllers/chatMessageController');
+const { container, TYPES } = require("../container");
+const BookController = container.get(TYPES.BookController);
 
 
 router.get('/',
-    BookController.get_book_list,
+    (req, res, next) => BookController.get_book_list(req, res, next),
     (req, res) => {
         res.render('book', {
             title: "Книги",
@@ -22,7 +23,7 @@ router.get('/create',
 
 router.post('/create',
     fileBookMulter.single('fileBook'),
-    BookController.post_new_book,
+    (req, res, next) => BookController.post_new_book(req, res, next),
     (req, res) => {
         const newBook = req.newBook;
         if (!newBook) res.redirect('/error/404');
@@ -31,9 +32,9 @@ router.post('/create',
     })
 
 router.get('/:id',
-    BookController.checkBookIdUI,
-    BookController.get_book,
-    BookController.incr_book,
+    (req, res, next) => BookController.checkBookIdUI(req, res, next),
+    (req, res, next) => BookController.get_book(req, res, next),
+    (req, res, next) => BookController.incr_book(req, res, next),
     chatMessageController.getList,
     (req, res) => {
         const { id } = req.params;
@@ -51,8 +52,8 @@ router.get('/:id',
     })
 
 router.get('/update/:id',
-    BookController.checkBookIdUI,
-    BookController.get_book,
+    (req, res, next) => BookController.checkBookIdUI(req, res, next),
+    (req, res, next) => BookController.get_book(req, res, next),
     (req, res) => {
         const { id } = req.params;
         const url = `api/books/${id}`;
@@ -68,11 +69,11 @@ router.get('/update/:id',
     })
 
 router.post('/update/:id',
-    BookController.checkBookIdUI,
+    (req, res, next) => BookController.checkBookIdUI(req, res, next),
     fileBookMulter.single('fileBook'),
-    BookController.updateInfofileBook,
-    BookController.put_book,
-    BookController.get_book,
+    (req, res, next) => BookController.updateInfofileBook(req, res, next),
+    (req, res, next) => BookController.put_book(req, res, next),
+    (req, res, next) => BookController.get_book(req, res, next),
     (req, res) => {
         if (!req.book) res.redirect('/error/404');
         const { id } = req.params
@@ -80,9 +81,9 @@ router.post('/update/:id',
     })
 
 router.post('/delete/:id',
-    BookController.checkBookIdUI,
-    BookController.delete,
-    BookController.get_book,
+    (req, res, next) => BookController.checkBookIdUI(req, res, next),
+    (req, res, next) => BookController.delete(req, res, next),
+    (req, res, next) => BookController.get_book(req, res, next),
      (req, res) => {
         if (req.book) {
             res.redirect('/error/404');
@@ -93,9 +94,9 @@ router.post('/delete/:id',
     })
 
 router.post(`/delete/:id/file_book`,
-    BookController.checkBookIdUI,
-    BookController.delete_file_book,
-    BookController.get_book,
+    (req, res, next) => BookController.checkBookIdUI(req, res, next),
+    (req, res, next) => BookController.delete_file_book(req, res, next),
+    (req, res, next) => BookController.get_book(req, res, next),
     (req, res) => {
         if (res.statusCode === 204) {
             res.status(201)
