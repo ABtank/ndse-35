@@ -9,7 +9,7 @@ const TYPES = {
 };
 
 decorate(injectable(), BookController);
-container.bind(TYPES.BookController).to(BookController);
+container.bind(TYPES.BookController).to(BookController).inSingletonScope();
 
 
 
