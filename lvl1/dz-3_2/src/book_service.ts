@@ -11,21 +11,19 @@ interface Book {
 
 abstract class BooksRepository {
     //— создание книги.
-    createBook(book: Book) { }
+    abstract createBook(book: Book) : Promise<any>;
     
     // — получение книги по id.
-    getBook(id: string) { }
+    abstract getBook(id: string) : Promise<any>;
     
     //— получение всех книг.
-    getBooks() { }
+    abstract getBooks() : Promise<any>;
     
     // — обновление книги.
-    updateBook(id: string) { }
+    abstract updateBook(id: string) : Promise<any>;
     
     // — удаление книги.
-    deleteBook(id: string) { }
+    abstract deleteBook(id: string) : Promise<any>;
     
-    constructor() {
 
-    }
 }
