@@ -21,3 +21,19 @@ nest update
 ```
 npm run start:dev
 ```
+
+
+## Настройка БД
+### Установка ORM postgres
+```
+npm install @nestjs/typeorm typeorm pg
+```
+### Установка Mongoose
+```
+npm install @nestjs/mongoose mongoose
+```
+
+## Установка для работы с env
+```
+npm i --save @nestjs/config
+```
