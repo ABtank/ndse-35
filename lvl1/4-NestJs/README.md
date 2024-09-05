@@ -50,3 +50,10 @@ curl localhost:3000/todo -H "Content-Type: application/json" -X POST -d '{"title
 curl localhost:3000/todo/66d652a78936f24341ddcf79 -H "Content-Type: application/json" -X PUT -d '{"title":"first PUT","descr":"Do it!","text":"longer text"}'
 curl localhost:3000/todo/66d652a78936f24341ddcf79 -X DELETE 
 ```
+```
+curl localhost:3000/book -H "Content-Type: application/json" -X POST -d '{"title":"first POST book","description":"Greate book!","authors":["first authors","Last authors"],"favorite":false}'
+
+curl localhost:3000/book/66da2ce075cda9b3e25d2dff -H "Content-Type: application/json" -X PUT -d '{"title":"first PUT book","description":"Greate book!","authors":["first authors"],"favorite":true}'
+
+curl localhost:3000/book/66da2ce075cda9b3e25d2dff -X DELETE 
+```
