@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DBPostgresModule } from './db/postgres.module';
 import { MongooseDatabaseModule } from './db/mongoose.module';
+import { TodoModule } from './todo/todo.module';
 
 @Module({
-  imports: [MongooseDatabaseModule, DBPostgresModule],
+  imports: [MongooseDatabaseModule, TodoModule],
   controllers: [AppController],
   providers: [AppService],
 })
