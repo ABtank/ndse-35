@@ -57,3 +57,14 @@ curl localhost:3000/book/66da2ce075cda9b3e25d2dff -H "Content-Type: application/
 
 curl localhost:3000/book/66da2ce075cda9b3e25d2dff -X DELETE 
 ```
+
+
+## Валидация
+
+```
+npm i joi
+```
+
+```
+npm i class-validator class-transformer
+```
